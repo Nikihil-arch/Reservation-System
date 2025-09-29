@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Staff Dashboard | Alfies Pizzeria</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="dashboard-header">
+    <h1>Staff Dashboard</h1>
+    <div class="header-actions">
+      <nav><a href="#" id="logout-btn">Logout</a></nav>
+      <label class="theme-toggle" for="theme-switch">
+        Dark Mode
+        <div class="toggle-switch">
+          <input type="checkbox" id="theme-switch" />
+          <span class="slider"></span>
+        </div>
+      </label>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    <section class="dashboard-card">
+      <h2>Create a New Reservation</h2>
+      <form id="create-reservation-form" class="reservation-form" style="max-width: none; padding: 0; box-shadow: none; background: none;">
+        <div id="create-status-message" class="status-message"></div>
+        <div class="form-group">
+            <label for="customer-select">Select Customer</label>
+            <select id="customer-select" required>
+                <option value="" disabled selected>Loading customers...</option>
+            </select>
+        </div>
+        <div class="flex-row">
+            <div class="form-group" style="flex: 2;">
+                <label for="new-reservation-date">Date</label>
+                <input type="date" id="new-reservation-date" required />
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label for="new-reservation-seats">Guests</label>
+                <select id="new-reservation-seats" required>
+                    <option value="1">1</option>
+                    <option value="2" selected>2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label for="new-reservation-time">Time</label>
+                <select id="new-reservation-time" required>
+                    <option value="17:00">17:00</option>
+                    <option value="17:30">17:30</option>
+                    <option value="18:00">18:00</option>
+                    <option value="18:30">18:30</option>
+                    <option value="19:00">19:00</option>
+                    <option value="19:30">19:30</option>
+                    <option value="20:00">20:00</option>
+                    <option value="20:30">20:30</option>
+                    <option value="21:00">21:00</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" id="create-reservation-btn" class="btn-primary">Create Reservation</button>
+      </form>
+    </section>
+
+    <section class="dashboard-card">
+      <h2>Today's Reservations</h2>
+      <ul id="today-reservations-list"><li>Loading...</li></ul>
+    </section>
+
+    <section class="dashboard-card">
+      <h2>Tomorrow's Reservations</h2>
+      <ul id="tomorrow-reservations-list"><li>Loading...</li></ul>
+    </section>
+    
+    <section class="dashboard-card">
+      <h2>Pending Event Requests</h2>
+      <ul id="event-requests-list"><li>Loading...</li></ul>
+    </section>
+
+    <section class="dashboard-card">
+      <h2>Confirmed Upcoming Events</h2>
+      <ul id="confirmed-events-list"><li>Loading...</li></ul>
+    </section>
+  </main>
+
+  <div id="customer-details-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-content">
+      <button id="close-customer-modal-btn" class="close-modal-btn">&times;</button>
+      <h2>Customer Details</h2>
+      <div id="customer-details-content" class="profile-box"></div>
+    </div>
+  </div>
+
+  <!-- NEW: Cancellation Modal for Staff -->
+  <div id="cancellation-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-content">
+      <button id="close-cancel-modal-btn" class="close-modal-btn">&times;</button>
+      <h2>Cancel Customer Reservation</h2>
+      <p>Please select a reason for cancelling this booking.</p>
+      <form id="cancellation-form">
+        <div class="form-group">
+          <label for="cancellation-reason">Reason for Cancellation</label>
+          <select id="cancellation-reason" name="reason" required>
+            <option value="" disabled selected>Select a reason...</option>
+            <option value="Customer request">Customer request</option>
+            <option value="No show">No show</option>
+            <option value="Restaurant operational issue">Restaurant operational issue</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary">Confirm Cancellation</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="staff-dashboard.js"></script>
+</body>
+</html>

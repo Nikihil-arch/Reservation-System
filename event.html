@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book an Event | Alfies Pizzeria</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="reservation-header">
+    <a href="user-dashboard.html" class="back-link">← Back to Dashboard</a>
+    <h1>Book a Private Event</h1>
+    <label class="theme-toggle" for="theme-switch">
+      Dark Mode
+      <div class="toggle-switch">
+          <input type="checkbox" id="theme-switch" />
+          <span class="slider"></span>
+      </div>
+    </label>
+  </header>
+
+  <main class="reservation-container">
+    <form id="event-form" class="reservation-form">
+      <div id="status-message" class="status-message"></div>
+      <div class="form-group">
+        <label for="event-date">Select Date</label>
+        <input type="date" id="event-date" name="event-date" required />
+      </div>
+      <div class="form-group">
+        <label for="event-guests">Number of Guests (min. 10)</label>
+        <input type="number" id="event-guests" name="event-guests" min="10" placeholder="e.g., 25" required />
+      </div>
+      <div class="form-group">
+        <label for="event-time">Preferred Time</label>
+        <select id="event-time" name="event-time" required>
+          <option value="" disabled selected>Select a time</option>
+          <option value="17:00">05:00 PM</option>
+          <option value="18:00">06:00 PM</option>
+          <option value="19:00">07:00 PM</option>
+          <option value="20:00">08:00 PM</option>
+        </select>
+      </div>
+      <button type="submit" id="submit-button" class="btn-primary">Request Booking</button>
+    </form>
+  </main>
+
+  <script type="module" src="event.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up - Alfies Pizzeria</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <main class="login-page-container">
+    <div class="login-card">
+      <div class="login-image-panel">
+        <img src="signup-pasta.jpg" alt="A delicious bowl of pasta.">
+      </div>
+      <div class="login-form-panel">
+        <div class="container">
+          <h1 class="login-signup-header">Create an Account</h1>
+          <div class="form-group theme-toggle-group">
+            <label class="theme-toggle" for="theme-switch">
+              Dark Mode
+              <div class="toggle-switch">
+                <input type="checkbox" id="theme-switch" />
+                <span class="slider"></span>
+              </div>
+            </label>
+          </div>
+          <form id="signup-form" novalidate>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your full name" required autocomplete="name" />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Your email address" required autocomplete="email" />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <div class="password-wrapper">
+                <input type="password" id="password" name="password" placeholder="Enter a password" required autocomplete="new-password" />
+                <button type="button" id="toggle-password" class="toggle-password-btn" aria-label="Toggle password visibility"></button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <div class="password-wrapper">
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required autocomplete="new-password" />
+                <button type="button" id="toggle-confirm-password" class="toggle-password-btn" aria-label="Toggle password visibility"></button>
+              </div>
+            </div>
+            <fieldset class="form-group radio-group">
+              <legend>How far do you travel to Alfies Pizzeria?</legend>
+              <div class="radio-options">
+                <label><input type="radio" name="travelDistance" value="0-5km" required /> 0-5 km</label>
+                <label><input type="radio" name="travelDistance" value="5-10km" /> 5-10 km</label>
+                <label><input type="radio" name="travelDistance" value="10km+" /> 10 km+</label>
+              </div>
+            </fieldset>
+            <div id="signup-error" class="error-message"></div>
+            <button type="submit" id="signup-button" class="btn-primary">Sign Up</button>
+            <p style="text-align:center; margin-top: 1rem;">
+              Already have an account? <a href="login.html">Log in here</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    const themeSwitch=document.getElementById("theme-switch"),body=document.body;function setDarkMode(e){body.classList.toggle("dark",e),localStorage.setItem("theme",e?"dark":"light")}const savedThemeIsDark="dark"===localStorage.getItem("theme");themeSwitch&&(themeSwitch.checked=savedThemeIsDark,setDarkMode(savedThemeIsDark),themeSwitch.addEventListener("change",()=>{setDarkMode(themeSwitch.checked)}));
+    const firebaseConfig = { apiKey: "AIzaSyA2dRglUE8f8slzGrON90JXUv_lJFh2eb8", authDomain: "alfies-pizzeria-47711.firebaseapp.com", projectId: "alfies-pizzeria-47711", storageBucket: "alfies-pizzeria-47711.appspot.com", messagingSenderId: "546884170927", appId: "1:546884170927:web:0887c8ada543729dfd105a" };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const signupForm = document.getElementById("signup-form");
+    const errorContainer = document.getElementById("signup-error");
+    const signupButton = document.getElementById("signup-button");
+    signupForm.addEventListener("submit", async (e) => { e.preventDefault(); errorContainer.textContent = ""; signupButton.disabled = true; const name = signupForm.name.value.trim(); const email = signupForm.email.value.trim(); const password = signupForm.password.value; const confirmPassword = signupForm.confirmPassword.value; const travelDistance = signupForm.travelDistance.value; if (!name || !email || !password || !confirmPassword || !travelDistance) { errorContainer.textContent = "Please fill in all required fields."; signupButton.disabled = false; return; } if (password !== confirmPassword) { errorContainer.textContent = "Passwords do not match."; signupButton.disabled = false; return; } try { const userCredential = await auth.createUserWithEmailAndPassword(email, password); const user = userCredential.user; await db.collection("users").doc(user.uid).set({ name, email, travelDistance, allergies: [], favourites: [], role : "customer", createdAt: firebase.firestore.FieldValue.serverTimestamp() }); localStorage.removeItem('theme'); window.location.href = "user-dashboard.html"; } catch (error) { errorContainer.textContent = error.message; } finally { signupButton.disabled = false; } });
+    const eyeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    const eyeOffIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" x2="22" y1="2" y2="22"></line></svg>`;
+    function setupPasswordToggle(inputId, toggleButtonId) { const passwordInput = document.getElementById(inputId); const toggleButton = document.getElementById(toggleButtonId); if (passwordInput && toggleButton) { toggleButton.innerHTML = eyeIcon; toggleButton.addEventListener('click', () => { const isPassword = passwordInput.type === 'password'; passwordInput.type = isPassword ? 'text' : 'password'; toggleButton.innerHTML = isPassword ? eyeOffIcon : eyeIcon; }); } }
+    setupPasswordToggle('password', 'toggle-password');
+    setupPasswordToggle('confirmPassword', 'toggle-confirm-password');
+  </script>
+</body>
+</html>

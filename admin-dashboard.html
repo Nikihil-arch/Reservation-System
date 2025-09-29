@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard | Alfies Pizzeria</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <div class="header-actions">
+      <nav><a href="#" id="logout-btn">Logout</a></nav>
+      <label class="theme-toggle" for="theme-switch">
+        Dark Mode
+        <div class="toggle-switch">
+          <input type="checkbox" id="theme-switch" />
+          <span class="slider"></span>
+        </div>
+      </label>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    <div class="dashboard-grid">
+      <!-- Column 1: Management Tasks & Experience Report -->
+      <div class="grid-column">
+        <section class="dashboard-card">
+          <div class="card-header">
+            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5a5.5 5.5 0 0 1 5.5 5.5c0 1.54-.63 2.92-1.64 3.86a8.5 8.5 0 0 1-7.72 0A5.48 5.48 0 0 1 6.5 8a5.5 5.5 0 0 1 5.5-5.5zM12 1a6.5 6.5 0 0 0-6.5 6.5c0 1.84.78 3.47 2 4.63a9.5 9.5 0 0 0 9 0c1.22-1.16 2-2.79 2-4.63A6.5 6.5 0 0 0 12 1zm0 14a8 8 0 0 0-8 8h16a8 8 0 0 0-8-8z"/></svg>
+            <h2>Create New Staff Account</h2>
+          </div>
+          <form id="create-staff-form" class="card-form">
+            <div id="create-status-message" class="status-message"></div>
+            <div class="form-group">
+              <label for="staff-name">Staff Member's Name</label>
+              <input type="text" id="staff-name" required />
+            </div>
+            <div class="form-group">
+                <label for="staff-email">Email Address</label>
+                <input type="email" id="staff-email" required />
+            </div>
+            <div class="form-group">
+                <label for="staff-password">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="staff-password" required />
+                    <button type="button" id="toggle-password" class="toggle-password-btn" aria-label="Toggle password visibility"></button>
+                </div>
+            </div>
+            <button type="submit" id="create-staff-btn" class="btn-primary">Create Staff Account</button>
+          </form>
+        </section>
+
+        <section class="dashboard-card">
+          <div class="card-header">
+            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15 6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm-6 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm-6 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/></svg>
+            <h2>Manage Staff</h2>
+          </div>
+          <ul id="staff-list" class="card-list"><li>Loading staff...</li></ul>
+        </section>
+
+        <!-- MOVED: Customer Experience Report is now here -->
+        <section class="dashboard-card">
+          <div class="card-header">
+            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 12H5v-2h14v2zm0-3H5V9h14v2zm0-3H5V6h14v2z"/></svg>
+            <h2>Customer Experience Report</h2>
+          </div>
+          <div class="report-controls">
+            <button id="generate-experience-report-btn" class="btn-primary">Generate Report</button>
+          </div>
+          <div id="experience-report-results">
+          </div>
+        </section>
+      </div>
+
+      <!-- Column 2: Data Reports -->
+      <div class="grid-column">
+        <section class="dashboard-card">
+          <div class="card-header">
+            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z"/></svg>
+            <h2>System Reports</h2>
+          </div>
+          <div id="reports-container" class="card-list">
+              <div class="report-item"><span class="report-label">Total Customer Accounts</span><span id="total-customers" class="report-value">...</span></div>
+              <div class="report-item"><span class="report-label">Total Active Reservations</span><span id="total-reservations" class="report-value">...</span></div>
+              <div class="report-item"><span class="report-label">Total Pending Events</span><span id="total-events" class="report-value">...</span></div>
+          </div>
+        </section>
+
+        <section class="dashboard-card">
+          <div class="card-header">
+            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2v20h-2V2h2zm-4 4v16H7V6h2zm8 0v16h-2V6h2zM3 10v12H1V10h2z"/></svg>
+            <h2>Booking Trends Report</h2>
+          </div>
+          <div class="report-controls">
+            <div class="form-group"><label for="start-date">Start Date</label><input type="date" id="start-date"></div>
+            <div class="form-group"><label for="end-date">End Date</label><input type="date" id="end-date"></div>
+            <button id="generate-report-btn" class="btn-primary">Generate</button>
+          </div>
+          <div id="report-results-container"></div>
+        </section>
+        
+        <section class="dashboard-card">
+          <div class="card-header">
+            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <h2>Top Customers Report</h2>
+          </div>
+          <div class="report-controls">
+            <div class="form-group"><label for="top-customers-count">Number of Customers</label><input type="number" id="top-customers-count" value="5" min="1" max="50"></div>
+            <button id="generate-top-customers-btn" class="btn-primary">Generate</button>
+          </div>
+          <div id="top-customers-results"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+  
+  <div id="loading-modal" class="modal-backdrop" style="display: none;">
+    <div class="pizzeria-loader"><div class="pizza-slice"></div><p class="loader-text">Cooking up your request...</p></div>
+  </div>
+
+  <script type="module" src="admin-dashboard.js"></script>
+</body>
+</html>

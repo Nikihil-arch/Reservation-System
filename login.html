@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alfies Pizzeria - Login</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="login-page-container">
+    <div class="login-card">
+      <div class="login-image-panel">
+        <img src="login-pizza.jpg" alt="A top-down view of a freshly baked pizza.">
+      </div>
+      <div class="login-form-panel">
+        <div class="container">
+          <h1 class="login-signup-header">Alfies Pizzeria Login</h1>
+          <div class="form-group theme-toggle-group">
+            <label class="theme-toggle" for="theme-switch">
+              Dark Mode
+              <div class="toggle-switch">
+                <input type="checkbox" id="theme-switch" />
+                <span class="slider"></span>
+              </div>
+            </label>
+          </div>
+          <form id="login-form" autocomplete="off" novalidate>
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <div class="password-wrapper">
+                <input type="password" id="password" name="password" required placeholder="Enter your password" autocomplete="current-password" />
+                <button type="button" id="toggle-password" class="toggle-password-btn" aria-label="Toggle password visibility"></button>
+              </div>
+            </div>
+            <div id="login-error" class="error-message"></div>
+            <button type="submit" id="login-button" class="btn-primary">Login</button>
+            <p style="text-align:center; margin-top: 1rem;">
+              Don't have an account? <a href="signup.html">Sign up here</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    const themeSwitch=document.getElementById("theme-switch"),body=document.body;function setDarkMode(e){body.classList.toggle("dark",e),localStorage.setItem("theme",e?"dark":"light")}const savedThemeIsDark="dark"===localStorage.getItem("theme");themeSwitch&&(themeSwitch.checked=savedThemeIsDark,setDarkMode(savedThemeIsDark),themeSwitch.addEventListener("change",()=>{setDarkMode(themeSwitch.checked)}));
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    
+    const firebaseConfig = { apiKey: "AIzaSyA2dRglUE8f8slzGrON90JXUv_lJFh2eb8", authDomain: "alfies-pizzeria-47711.firebaseapp.com", projectId: "alfies-pizzeria-47711", storageBucket: "alfies-pizzeria-47711.appspot.com", messagingSenderId: "546884170927", appId: "1:546884170927:web:0887c8ada543729dfd105a" };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const loginForm = document.getElementById('login-form');
+    const loginErrorEl = document.getElementById('login-error');
+    const loginButton = document.getElementById('login-button');
+
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loginErrorEl.textContent = '';
+        loginButton.disabled = true;
+        const email = loginForm.email.value.trim();
+        const password = loginForm.password.value;
+        try {
+            await setPersistence(auth, browserLocalPersistence);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            
+            // This line is critical to prevent race conditions before redirecting
+            await userCredential.user.getIdToken(true); 
+            
+            const userDocRef = doc(db, 'users', userCredential.user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+            if (!userDocSnap.exists()) { throw new Error("Profile not found."); }
+            
+            localStorage.removeItem('theme'); // Reset theme on login
+            
+            const { role } = userDocSnap.data();
+            switch (role) {
+                case 'customer':
+                    window.location.href = 'user-dashboard.html';
+                    break;
+                case 'staff':
+                    window.location.href = 'staff-dashboard.html';
+                    break;
+                case 'admin':
+                    window.location.href = 'admin-dashboard.html';
+                    break;
+                default:
+                    throw new Error("Unknown role.");
+            }
+        } catch (error) {
+            console.error("Login Error:", error);
+            signOut(auth).catch(() => {});
+            loginErrorEl.textContent = 'Login failed. Please check credentials and try again.';
+        } finally {
+            loginButton.disabled = false;
+        }
+    });
+
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('toggle-password');
+    const eyeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    const eyeOffIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" x2="22" y1="2" y2="22"></line></svg>`;
+    
+    if (togglePasswordBtn) {
+        togglePasswordBtn.innerHTML = eyeIcon;
+        togglePasswordBtn.addEventListener('click', () => {
+            const isPassword = passwordInput.getAttribute('type') === 'password';
+            passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+            togglePasswordBtn.innerHTML = isPassword ? eyeOffIcon : eyeIcon;
+        });
+    }
+  </script>
+</body>
+</html>

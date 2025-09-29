@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alfies Pizzeria — User Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="dashboard-header">
+    <h1>Welcome, <span id="user-name">User</span></h1>
+    <div class="header-actions">
+      <nav>
+        <a href="reservation.html">Book Table</a>
+        <a href="event.html">Book Event</a>
+        <a href="#" id="logout-btn">Logout</a>
+      </nav>
+      <label class="theme-toggle" for="theme-switch">
+        Dark Mode
+        <div class="toggle-switch">
+          <input type="checkbox" id="theme-switch" />
+          <span class="slider"></span>
+        </div>
+      </label>
+    </div>
+  </header>
+
+<main class="dashboard-main">
+  <!-- NEW: Two-Column Grid Layout -->
+  <div class="dashboard-grid">
+    
+    <!-- Column 1: Profile Sidebar -->
+    <aside class="profile-sidebar">
+      <div class="dashboard-card profile-panel">
+        <div id="customer-info" class="profile-box">Loading...</div>
+        
+        <div class="form-group">
+          <label for="allergy-dropdown">Add Allergy:</label>
+          <select id="allergy-dropdown">
+            <option disabled selected value="">Select an allergy</option> 
+            <option value="Peanuts">Peanuts</option>
+            <option value="Shellfish">Shellfish</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Gluten">Gluten</option>
+            <option value="Soy">Soy</option>
+          </select>
+          <div id="allergy-tags" class="tag-container"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="favourite-input">Add Favourite Dish:</label>
+          <input type="text" id="favourite-input" placeholder="Type and press Enter" />
+          <div id="favourite-tags" class="tag-container"></div>
+        </div>
+      </div>
+      
+      <div class="dashboard-card snapshot-panel">
+        <div class="card-header">
+          <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L1 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-11-4zm0 2.23L18 5.79V11c0 4.52-2.98 8.68-6 9.93-3.02-1.25-6-5.41-6-9.93V5.79L12 3.23z"/></svg>
+          <h2>Your Alfie's Experience</h2>
+        </div>
+        <div id="diner-snapshot" class="snapshot-grid">
+            <div class="snapshot-item"><span class="snapshot-label">Member Since</span><span id="member-since" class="snapshot-value">...</span></div>
+            <div class="snapshot-item"><span class="snapshot-label">Total Visits</span><span id="total-visits" class="snapshot-value">...</span></div>
+            <div class="snapshot-item"><span class="snapshot-label">Go-To Dish</span><span id="go-to-dish" class="snapshot-value">...</span></div>
+            <div class="snapshot-item"><span class="snapshot-label">Your Top Rating</span><span id="top-rating" class="snapshot-value">...</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Column 2: Main Content Feed -->
+    <div class="main-content">
+      <section class="dashboard-card">
+        <div class="card-header">
+            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V8h14v12z"/></svg>
+            <h2>Your Upcoming Reservations</h2>
+        </div>
+        <ul id="reservations-list" class="card-list"><li>Loading reservations...</li></ul>
+      </section>
+
+      <section class="dashboard-card">
+        <div class="card-header">
+            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm13.66-1.31L11 7.34 16.66 13l5.66-5.66-5.66-5.65z"/></svg>
+            <h2>Reservation History</h2>
+        </div>
+        <ul id="past-reservations-list" class="card-list"><li>Loading history...</li></ul>
+      </section>
+
+      <section class="dashboard-card">
+        <div class="card-header">
+            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v-2h-2z"/></svg>
+            <h2>Your Event Requests</h2>
+        </div>
+        <ul id="event-requests-list" class="card-list"><li>Loading event requests...</li></ul>
+      </section>
+    </div>
+    
+  </div>
+</main>
+
+  <!-- Review Modal (No changes needed) -->
+  <div id="review-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-content">
+      <button id="close-modal-btn" class="close-modal-btn">×</button>
+      <h2>Leave a Review</h2>
+      <form id="review-form">
+        <div class="form-group">
+          <label for="star5">Your Rating</label>
+          <div class="star-rating">
+            <input type="radio" id="star5" name="rating" value="5" required/><label for="star5" title="5 stars">★</label>
+            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">★</label>
+            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars">★</label>
+            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars">★</label>
+            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="review-text">Your Review</label>
+          <textarea id="review-text" name="review" rows="5" placeholder="Tell us about your experience..."></textarea>
+        </div>
+        <button type="submit" id="submit-review-btn" class="btn-primary">Submit Review</button>
+      </form>
+    </div>
+  </div>
+
+ <!-- NEW: Cancellation Modal Structure -->
+  <div id="cancellation-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-content">
+      <button id="close-cancel-modal-btn" class="close-modal-btn">&times;</button>
+      <h2>Cancel Reservation</h2>
+      <p>We're sorry to see you go. Please let us know why you're canceling.</p>
+      <form id="cancellation-form">
+        <div class="form-group">
+          <label for="cancellation-reason">Reason for Cancellation</label>
+          <select id="cancellation-reason" name="reason" required>
+            <option value="" disabled selected>Select a reason...</option>
+            <option value="Change of plans">Change of plans</option>
+            <option value="Found a different time">Found a different time</option>
+            <option value="Feeling unwell">Feeling unwell</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary">Confirm Cancellation</button>
+      </form>
+    </div>
+  </div>
+  
+  <script type="module" src="user-dashboard.js"></script>
+</body>
+</html>

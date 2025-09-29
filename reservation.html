@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book a Reservation | Alfies Pizzeria</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="reservation-header">
+    <a href="user-dashboard.html" class="back-link">← Back to Dashboard</a>
+    <h1>Book a Reservation</h1>
+    <label class="theme-toggle" for="theme-switch">
+      Dark Mode
+      <div class="toggle-switch">
+          <input type="checkbox" id="theme-switch" />
+          <span class="slider"></span>
+      </div>
+    </label>
+  </header>
+
+  <main class="reservation-container">
+    <form id="reservation-form" class="reservation-form">
+      <div id="status-message" class="status-message"></div>
+      <div class="form-group">
+        <label for="reservation-date">Select Date</label>
+        <input type="date" id="reservation-date" name="reservation-date" required />
+      </div>
+      <div class="form-group">
+        <label for="reservation-seats">Number of Guests</label>
+        <select id="reservation-seats" name="reservation-seats" required>
+          <option value="" disabled selected>Select number of seats</option>
+          <option value="1">1 Person</option>
+          <option value="2">2 People</option>
+          <option value="3">3 People</option>
+          <option value="4">4 People</option>
+          <option value="5">5 People</option>
+          <option value="6">6 People</option>
+          <option value="7">7 People</option>
+          <option value="8">8 People</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="reservation-time">Select Time</label>
+        <select id="reservation-time" name="reservation-time" required>
+          <option value="" disabled selected>Select a time</option>
+          <option value="17:00">05:00 PM</option>
+          <option value="17:30">05:30 PM</option>
+          <option value="18:00">06:00 PM</option>
+          <option value="18:30">06:30 PM</option>
+          <option value="19:00">07:00 PM</option>
+          <option value="19:30">07:30 PM</option>
+          <option value="20:00">08:00 PM</option>
+          <option value="20:30">08:30 PM</option>
+          <option value="21:00">09:00 PM</option>
+        </select>
+      </div>
+      <button type="submit" id="submit-button" class="btn-primary">Book Now</button>
+    </form>
+  </main>
+
+  <script type="module" src="reservation.js"></script>
+</body>
+</html>

@@ -294,14 +294,14 @@ onAuthStateChanged(auth, async (user) => {
         if (!userDocSnap.exists() || userDocSnap.data().role !== 'staff') {
             alert('Access denied. You do not have staff permissions.');
             signOut(auth);
-            window.location.href = 'login.html';
+            window.location.href = 'Index.html';
             return;
         }
         await populateCustomerDropdown();
         await loadReservations();
         await loadEventRequests();
     } else {
-        window.location.href = 'login.html';
+        window.location.href = 'Index.html';
     }
 });
 

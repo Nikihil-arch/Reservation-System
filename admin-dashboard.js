@@ -220,7 +220,7 @@ const eyeOffIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="2
 if (togglePasswordBtn) { togglePasswordBtn.innerHTML = eyeIcon; togglePasswordBtn.addEventListener('click', () => { const isPassword = passwordInput.type === 'password'; passwordInput.type = isPassword ? 'text' : 'password'; togglePasswordBtn.innerHTML = isPassword ? eyeOffIcon : eyeIcon; }); }
 
 // --- INITIALIZATION ---
-onAuthStateChanged(auth, async (user) => { if (user) { const userDocRef = doc(db, 'users', user.uid); const userDocSnap = await getDoc(userDocRef); if (!userDocSnap.exists() || userDocSnap.data().role !== 'admin') { alert('Access denied.'); signOut(auth); window.location.href = 'login.html'; return; } await loadStaffAccounts(); await generateReports(); } else { window.location.href = 'login.html'; } });
+onAuthStateChanged(auth, async (user) => { if (user) { const userDocRef = doc(db, 'users', user.uid); const userDocSnap = await getDoc(userDocRef); if (!userDocSnap.exists() || userDocSnap.data().role !== 'admin') { alert('Access denied.'); signOut(auth); window.location.href = 'Index.html'; return; } await loadStaffAccounts(); await generateReports(); } else { window.location.href = 'Index.html'; } });
 const savedTheme = localStorage.getItem('theme') === 'true';
 themeSwitch.checked = savedTheme;
 setDarkMode(savedTheme);

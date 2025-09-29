@@ -76,7 +76,7 @@ onAuthStateChanged(auth, user => {
     currentUser = user;
     document.getElementById("reservation-date").setAttribute('min', getTodayDateString());
   } else {
-    if (!window.location.pathname.endsWith('login.html')) { window.location.href = "login.html"; }
+    if (!window.location.pathname.endsWith('Index.html')) { window.location.href = "Index.html"; }
   }
 });
 

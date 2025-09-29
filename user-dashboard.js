@@ -288,8 +288,8 @@ onAuthStateChanged(auth, async user => {
             } else { signOut(auth); }
         } catch (error) { console.error("Error fetching user data:", error); }
     } else {
-        if (!window.location.pathname.endsWith('login.html')) {
-            window.location.href = 'login.html';
+        if (!window.location.pathname.endsWith('Index.html')) {
+            window.location.href = 'Index.html';
         }
     }
 });

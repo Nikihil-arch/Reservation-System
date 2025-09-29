@@ -48,7 +48,7 @@ eventForm.addEventListener("submit", async (e) => {
 
 onAuthStateChanged(auth, user => {
   if (user) { currentUser = user; document.getElementById("event-date").setAttribute('min', getTodayDateString()); }
-  else { if (!window.location.pathname.endsWith('login.html')) { window.location.href = "login.html"; } }
+  else { if (!window.location.pathname.endsWith('Index.html')) { window.location.href = "Index.html"; } }
 });
 
 const savedTheme = localStorage.getItem('theme') === 'dark';
